@@ -1,0 +1,38 @@
+import React, { useState, useCallback, useEffect } from 'react';
+import { GiftedChat } from 'react-native-gifted-chat';
+
+export default function ChatScreen() {
+  const [messages, setMessages] = useState([]);
+
+  useEffect(() => {
+    setMessages([
+      {
+        _id: 1,
+        text: '¡Hi! I am Smart Explorer. Ask me for recommendations of nearby places.',
+        createdAt: new Date(),
+        user: {
+          _id: 2,
+          name: 'Chatbot',
+          avatar: 'https://placeimg.com/140/140/any',
+        },
+      },
+    ]);
+  }, []);
+
+  const onSend = useCallback((messages = []) => {
+    setMessages(previousMessages =>
+      GiftedChat.append(previousMessages, messages)
+    );
+  }, []);
+
+  return (
+    <GiftedChat
+      messages={messages}
+      onSend={messages => onSend(messages)}
+      user={{
+        _id: 1,
+      }}
+      placeholder="Write your message here..."
+    />
+  );
+}
