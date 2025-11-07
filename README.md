@@ -1,50 +1,65 @@
-# Welcome to your Expo app 👋
+# SmartExplorer
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+**SmartExplorer** is a React Native app with an Express backend that uses OpenAI to provide concise, friendly travel recommendations.  
+The app can be accessed on web or mobile devices (Expo/React Native).  
+The backend is exposed to the mobile app using **ngrok**.
 
-## Get started
+## Features
 
-1. Install dependencies
+- AI-based chatbot for travel and local recommendations.  
+- Short, clear responses and follow-up questions.  
+- Works on browser and mobile devices.
 
-   ```bash
-   npm install
-   ```
+## Running on Mobile: Quick Start
+Backend Setup
 
-2. Start the app
+1. Install dependencies:
 
-   ```bash
-   npx expo start
-   ```
+	cd backend
+	npm install
 
-In the output, you'll find options to open the app in a
+2. Create a .env file in /backend with your OpenAI API key:
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+	OPENAI_API_KEY=sk-xxxxxxx....
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+3. Start your backend:
+	
+	node index.js
 
-## Get a fresh project
+(Make sure it listens on port 3001.)
 
-When you're ready, run:
+## Exposing Backend with ngrok
+1. Install ngrok:
 
-```bash
-npm run reset-project
-```
+Follow the official instructions for your system.
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+2. Sign up at ngrok.com to get your auth token.
 
-## Learn more
+3. Configure the auth token (only once):
 
-To learn more about developing your project with Expo, look at the following resources:
+	ngrok config add-authtoken <your_auth_token>
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+4. Expose your backend:
 
-## Join the community
+	ngrok http 3001
 
-Join our community of developers creating universal apps.
+You must copy your HTTPS forwarding URL from the ngrok output.
 
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+# Frontend Setup (Expo/React Native)
+
+1. Edit your frontend code (askOpenAI function) to use your ngrok HTTPS URL:
+	
+	const backendURL = 'https://your-ngrok-url.ngrok-free.dev/api/openai';
+
+2. Install frontend dependencies:
+
+	cd frontend
+	npm install
+
+3. Start Expo with tunnel mode (for mobile connection):
+
+	npx expo start --tunnel
+
+4. Open the app using Expo Go on your physical device, or run on a simulator/emulator.
+
+
